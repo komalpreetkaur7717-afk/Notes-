@@ -1,17 +1,38 @@
-# Project folder me terminal kholein
-git init
+name: Build Android APK
 
-# Saari files add karein
-git add .
+on:
+  push:
+    branches: ["main", "master"]
+  workflow_dispatch:
 
-# Commit karein
-git commit -m "Initial commit for Notes App"
+jobs:
+  build:
+    runs-on: ubuntu-latest
 
-# Main branch set karein
-git branch -M main
+    steps:
+      - name: 1. Code Checkout
+        uses: actions/checkout@v4
 
-# Apne GitHub repository ka link jodein
-git remote add origin https://github.com/YOUR-USERNAME/notes-app.git
+      - name: 2. Java Environment Setup
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
 
-# Code push karein
-git push -u origin main
+      - name: 3. Flutter SDK Setup
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.x'
+          channel: 'stable'
+
+      - name: 4. Dependencies Download
+        run: flutter pub get
+
+      - name: 5. Release APK Build
+        run: flutter build apk --release --no-tree-shake-icons
+
+      - name: 6. APK File Save Karein
+        uses: actions/upload-artifact@v4
+        with:
+          name: SmartNotes-Android-APK
+          path: build/app/outputs/flutter-apk/app-release.apk
