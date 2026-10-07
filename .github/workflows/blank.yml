@@ -1,0 +1,17 @@
+# Project folder me terminal kholein
+git init
+
+# Saari files add karein
+git add .
+
+# Commit karein
+git commit -m "Initial commit for Notes App"
+
+# Main branch set karein
+git branch -M main
+
+# Apne GitHub repository ka link jodein
+git remote add origin https://github.com/YOUR-USERNAME/notes-app.git
+
+# Code push karein
+git push -u origin main
